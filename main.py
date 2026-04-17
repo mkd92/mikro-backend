@@ -142,18 +142,20 @@ async def upload_csv(
 async def verify_webhook(request: Request):
     """
     GET handler for Meta Webhook verification.
-    Requires: hub.mode, hub.verify_token, hub.challenge
     """
     params = request.query_params
     mode = params.get("hub.mode")
     token = params.get("hub.verify_token")
     challenge = params.get("hub.challenge")
 
-    if mode == "subscribe" and token == WEBHOOK_VERIFY_TOKEN:
+    logger.info(f"Webhook Attempt: mode={mode}, token={token}")
+
+    # Ensure token is compared correctly and handle cases where it might be missing
+    if mode == "subscribe" and token == (WEBHOOK_VERIFY_TOKEN or "my_marketing_app_token_2026"):
         logger.info("Webhook verified successfully.")
         return Response(content=challenge, media_type="text/plain")
     else:
-        logger.warning("Webhook verification failed.")
+        logger.warning(f"Webhook verification failed. Expected: {WEBHOOK_VERIFY_TOKEN}")
         raise HTTPException(status_code=403, detail="Verification token mismatch")
 
 @app.post("/webhooks")
