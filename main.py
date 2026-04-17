@@ -39,10 +39,10 @@ async def health_check():
 async def send_whatsapp_message(to: str, name: str, image_url: str, template_name: str):
     """
     Sends a WhatsApp message using a media template.
-    Structure:
-    - Header: Image (link provided)
-    - Body: Text parameter (personalized with 'name')
     """
+    # Construct URL inside to ensure PHONE_NUMBER_ID is loaded from env
+    api_url = f"https://graph.facebook.com/v18.0/{PHONE_NUMBER_ID}/messages"
+    
     headers = {
         "Authorization": f"Bearer {META_API_KEY}",
         "Content-Type": "application/json",
