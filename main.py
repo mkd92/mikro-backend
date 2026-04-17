@@ -28,6 +28,14 @@ META_API_URL = f"https://graph.facebook.com/v18.0/{PHONE_NUMBER_ID}/messages"
 
 app = FastAPI(title="Marketing WhatsApp Backend")
 
+@app.get("/")
+async def root():
+    return {"status": "online", "message": "WhatsApp Marketing API is running"}
+
+@app.get("/kaithhealthcheck")
+async def health_check():
+    return {"status": "healthy"}
+
 async def send_whatsapp_message(to: str, name: str, image_url: str, template_name: str):
     """
     Sends a WhatsApp message using a media template.
