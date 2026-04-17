@@ -188,6 +188,7 @@ async def handle_webhook(request: Request):
 
 if __name__ == "__main__":
     import uvicorn
-    # Cloud providers like Koyeb provide a PORT environment variable
-    port = int(os.getenv("PORT", 8000))
+    # Leapcell uses 8080 by default. Check PORT env or default to 8080.
+    port = int(os.getenv("PORT", 8080))
+    logger.info(f"Starting server on port {port}")
     uvicorn.run(app, host="0.0.0.0", port=port)
